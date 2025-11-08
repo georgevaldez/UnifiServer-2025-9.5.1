@@ -23,7 +23,7 @@ Designed by George Valdez EC @ Peltic Tech Solutions Ecuador
 
 ### Limpieza y catalogación de imágenes ISO/IMG en Windows
 
-En la carpeta [`scripts/`](scripts/) encontrarás el archivo por lotes `limpieza_iso_nombres.bat`. Este script recorre de forma recursiva la carpeta `E:\IsoBoot` (puedes ajustar la ruta modificando la variable `ROOT`), limpia los prefijos numéricos y reorganiza cada imagen `.iso` o `.img` en subcarpetas temáticas. Además, antepone al nombre limpio el prefijo numérico de la categoría asignada.
+En la carpeta [`scripts/`](scripts/) encontrarás el archivo por lotes `limpieza_iso_nombres.bat`. Este script recorre de forma recursiva la carpeta `E:\IsoBoot` (puedes ajustar la ruta modificando la variable `ROOT`), limpia los prefijos numéricos y reorganiza cada imagen `.iso` o `.img` en subcarpetas temáticas. Además, renombra cada archivo para que comience únicamente con el número de la categoría (`10 Windows 11.iso`, por ejemplo) antes de moverlo a su carpeta objetivo.
 
 Catálogo aplicado automáticamente:
 

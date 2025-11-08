@@ -37,7 +37,9 @@ for /r "%ROOT%" %%F in (*.iso *.img) do (
     mkdir "!targetDir!" >nul 2>&1
   )
 
-  set "candidate=!prefix!_!clean!"
+  call :StripExistingPrefix "!clean!" "!prefix!" clean
+
+  set "candidate=!prefix! !clean!"
   set "targetCandidate=!targetDir!\!candidate!!ext!"
 
   if /I "%%~fF"=="!targetCandidate!" (
@@ -159,4 +161,41 @@ goto trimmed
 :trimmed
 if not defined text set "text=%~1"
 endlocal & set "%~2=%text%"
+goto :EOF
+
+:StripExistingPrefix
+setlocal enabledelayedexpansion
+set "candidate=%~1"
+set "prefix=%~2"
+set /a prefixLen=0
+set "tmp=%prefix%"
+
+:stripPrefixLen
+if defined tmp (
+  set "tmp=%tmp:~1%"
+  set /a prefixLen+=1
+  goto stripPrefixLen
+)
+
+if %prefixLen% GTR 0 (
+  set "maybe=!candidate:~0,%prefixLen%!"
+  if /I "!maybe!"=="%prefix%" (
+    set "candidate=!candidate:~%prefixLen%!"
+  )
+)
+
+if defined candidate goto stripSepCheck
+goto stripPrefixDone
+
+:stripSepCheck
+set "first=!candidate:~0,1!"
+for %%S in (" " "-" "_" ".") do if "!first!"=="%%~S" (
+  set "candidate=!candidate:~1!"
+  goto stripSepCheck
+)
+
+:stripPrefixDone
+call :TrimLeading "!candidate!" cleaned
+if not defined cleaned set "cleaned=%~1"
+endlocal & set "%~3=%cleaned%"
 goto :EOF
