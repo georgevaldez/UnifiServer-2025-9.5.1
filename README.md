@@ -23,7 +23,7 @@ Designed by George Valdez EC @ Peltic Tech Solutions Ecuador
 
 ### Limpieza de nombres de imágenes ISO/IMG en Windows
 
-En la carpeta [`scripts/`](scripts/) encontrarás el archivo por lotes `limpieza_iso_nombres.bat`. Este script recorre de forma recursiva la carpeta `E:\IsoBoot` (puedes ajustar la ruta modificando la variable `ROOT`) y renombra cualquier archivo `.iso` o `.img` eliminando prefijos numéricos y guiones bajos iniciales. Es útil cuando los nombres de las imágenes provienen de descargas o catálogos que anteponen números de orden.
+En la carpeta [`scripts/`](scripts/) encontrarás el archivo por lotes `limpieza_iso_nombres.bat`. Este script recorre de forma recursiva la carpeta `E:\IsoBoot` (puedes ajustar la ruta modificando la variable `ROOT`) y renombra cualquier archivo `.iso` o `.img` eliminando prefijos numéricos y caracteres separadores comunes (espacios, guiones, guiones bajos y puntos) que queden antes del nombre real. Es útil cuando los nombres de las imágenes provienen de descargas o catálogos que anteponen números de orden.
 
 Para ejecutarlo:
 

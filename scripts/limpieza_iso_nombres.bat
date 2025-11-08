@@ -14,31 +14,20 @@ for /r "%ROOT%" %%F in (*.iso *.img) do (
   set "path=%%~dpF"
   set "name=%%~nF"
   set "ext=%%~xF"
-  setlocal enabledelayedexpansion
 
-  rem eliminar cualquier prefijo numerico y guiones bajos al inicio
-  set "clean=!name!"
-  for /l %%A in (1,1,20) do (
-    if defined clean (
-      for /f "tokens=1,* delims=_" %%B in ("!clean!") do (
-        echo %%B | findstr /r "^[0-9][0-9]*$" >nul
-        if not errorlevel 1 (
-          set "clean=%%C"
-        )
-      )
-    )
+  set "clean="
+  call :TrimLeading "!name!" clean
+
+  if not defined clean (
+    set "clean=!name!"
   )
 
-  rem quitar guion bajo inicial si quedo
-  if "!clean:~0,1!"=="_" set "clean=!clean:~1!"
-
   set "new=!clean!!ext!"
-  endlocal & set "new=%new%" & set "file=%%~nxF" & set "path=%%~dpF"
 
-  if /I not "%file%"=="%new%" (
-    echo ✓ %file% → %new%
-    pushd "%path%" >nul
-    ren "%file%" "%new%" >nul 2>&1
+  if /I not "!file!"=="!new!" (
+    echo ✓ !file! → !new!
+    pushd "!path!" >nul
+    ren "!file!" "!new!" >nul 2>&1
     popd >nul
   )
 )
@@ -48,3 +37,27 @@ echo ============================================================
 echo  PROCESO TERMINADO
 echo ============================================================
 pause
+
+goto :EOF
+
+:TrimLeading
+setlocal enabledelayedexpansion
+set "text=%~1"
+
+:trimLoop
+if not defined text goto trimmed
+set "first=!text:~0,1!"
+for %%D in (0 1 2 3 4 5 6 7 8 9) do if "!first!"=="%%D" (
+  set "text=!text:~1!"
+  goto trimLoop
+)
+for %%S in (" " "-" "_" ".") do if "!first!"=="%%~S" (
+  set "text=!text:~1!"
+  goto trimLoop
+)
+goto trimmed
+
+:trimmed
+if not defined text set "text=%~1"
+endlocal & set "%~2=%text%"
+goto :EOF
