@@ -21,14 +21,27 @@ Designed by George Valdez EC @ Peltic Tech Solutions Ecuador
 
 ## Utilidades adicionales
 
-### Limpieza de nombres de imágenes ISO/IMG en Windows
+### Limpieza y catalogación de imágenes ISO/IMG en Windows
 
-En la carpeta [`scripts/`](scripts/) encontrarás el archivo por lotes `limpieza_iso_nombres.bat`. Este script recorre de forma recursiva la carpeta `E:\IsoBoot` (puedes ajustar la ruta modificando la variable `ROOT`) y renombra cualquier archivo `.iso` o `.img` eliminando prefijos numéricos y caracteres separadores comunes (espacios, guiones, guiones bajos y puntos) que queden antes del nombre real. Es útil cuando los nombres de las imágenes provienen de descargas o catálogos que anteponen números de orden.
+En la carpeta [`scripts/`](scripts/) encontrarás el archivo por lotes `limpieza_iso_nombres.bat`. Este script recorre de forma recursiva la carpeta `E:\IsoBoot` (puedes ajustar la ruta modificando la variable `ROOT`), limpia los prefijos numéricos y reorganiza cada imagen `.iso` o `.img` en subcarpetas temáticas. Además, antepone al nombre limpio el prefijo numérico de la categoría asignada.
+
+Catálogo aplicado automáticamente:
+
+| Carpeta objetivo | Cuándo se usa |
+|------------------|---------------|
+| `00_Firewalls_Virtualization` | Firewalls y plataformas de virtualización (p. ej. pfSense, OPNsense, VMware ESXi, Proxmox). |
+| `10_Windows_Client` | Sistemas cliente de escritorio Microsoft Windows (Windows 7/8/10/11, XP, Vista). |
+| `30_Windows_Server` | Versiones de Windows Server y ediciones Hyper-V Server dedicadas. |
+| `50_Linux_General` | Distribuciones Linux de propósito general (Ubuntu, Debian, Fedora, CentOS, openSUSE, etc.). |
+| `70_Security_Forensics` | Distribuciones de seguridad, pentesting y forense (Kali, Parrot, Tails, Security Onion, etc.). |
+| `80_Backup_Recovery` | Herramientas de respaldo y recuperación (Clonezilla, Rescuezilla, Macrium, Veeam, etc.). |
+| `90_Utilities_Rescue` | Discos de rescate y utilidades multiuso (Hiren's BootCD, Strelec, DLC Boot, GParted, SystemRescue, etc.). |
+| `99_Miscellaneous` | Imágenes que no encajan en las categorías anteriores. |
 
 Para ejecutarlo:
 
 1. Copia el archivo a un equipo Windows y haz doble clic para iniciarlo (o ejecútalo desde una consola `cmd`).
 2. Ajusta el valor de `ROOT` si tus archivos están en otra ruta.
-3. Revisa la lista de renombrados propuestos; el script mostrará cada cambio como `✓ archivo_original → archivo_limpio`.
+3. Revisa la lista de movimientos; el script mostrará cada cambio como `✓ archivo_original → carpeta_destino\archivo_final`.
 
 El proceso finaliza mostrando un mensaje de confirmación y esperando a que presiones una tecla para cerrar la ventana.
