@@ -1,15 +1,18 @@
-⚙️ Instrucciones en Portainer
+Resumen del proyecto
 
-1️⃣ Ve a Stacks → Add stack
+    El repositorio contiene instrucciones pensadas para Portainer: crear una pila llamada UnifiSRV, pegar el contenido del archivo Yaml y desplegarla; esto genera automáticamente la red macvlan, los volúmenes de datos y base, y levanta los servicios MongoDB, UniFi y un helper.
 
-2️⃣ Nómbralo: UnifiSRV
+Contenido del despliegue (Yaml)
 
-3️⃣ Pega todo este YAML.
+    Red y volúmenes: Define una red unifisrv-net con macvlan sobre la interfaz física ens18, además de los volúmenes persistentes unifi_data y unifi_db.
 
-4️⃣ Haz clic en Deploy the stack.
+Servicio MongoDB: Ejecuta mongo:6.0, con IP fija 10.10.20.5, almacenamiento en unifi_db, y un healthcheck que usa mongosh para hacer ping a la instancia.
 
-Portainer creará:
-- la red macvlan (unifisrv-net)
-- el volumen de datos (unifi_data)
-- el volumen de base (unifi_db)
-- los servicios MongoDB (10.10.20.5), UniFi (10.10.20.4) y helper (10.10.20.10)
+Servicio UniFi Network Application: Usa la imagen de LinuxServer, se conecta al Mongo anterior, persiste la configuración en unifi_data, expone todos los puertos habituales (STUN, adopción de APs, panel HTTPS, portales de invitados, etc.) y establece las variables de entorno necesarias para enlazarse al Mongo.
+
+Servicio Helper (macvlan): Contenedor alpine privilegiado que, al iniciar, crea y levanta una interfaz macvlan llamada unifisrv-macvlan sobre ens18, le asigna la IP 10.10.20.10/32 y se mantiene en ejecución.
+Cómo usarlo
+
+    En Portainer, crea una pila llamada UnifiSRV y pega el YAML proporcionado.
+
+    Al desplegar, tendrás una instancia completa del UniFi Network Application (controlador) respaldada por MongoDB y con conectividad en la red macvlan, lista para adoptar y gestionar dispositivos UniFi en tu segmento 10.10.20.0/24.
